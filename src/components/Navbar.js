@@ -5,9 +5,27 @@ import { FaMicrophone } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoLogoYoutube } from 'react-icons/io';
 import { RiVideoAddLine } from 'react-icons/ri';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { changeSearchTerm, clearVideos } from '../features/youtube/youtubeSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/useApp';
+import { getSearchPageVideos } from '../store/reducers/getSearchPageVideos';
 
 
 export default function Navbar() {
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const searchTerm = useAppSelector((state) => state.youtubeApp.searchTerm);
+
+    const handleSearch = () => {
+        if (location.pathname !== "/search") navigate("/search");
+        else {
+            dispatch(clearVideos)
+            dispatch(getSearchPageVideos(false));
+        }
+    }
+
     return (
         <div className='flex justify-between px-14 h-14 items-center bg-[#222] opacity-95 sticky text-white'>
             <div className='flex gap-8 items-center text-2xl '>
@@ -20,12 +38,16 @@ export default function Navbar() {
                 </div>
             </div>
             <div className='flex items-center justify-center gap-5'>
-                <form >
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSearch();
+                }}>
                     <div className='flex bg-zinc-900 items-center h-10 px-4 pr-0 rounded-2xl'>
                         <div className='flex gap-5 items-center pr-5'>
-                            <input type="text" placeholder='Search' className='w-96 bg-zinc-900 focus:outline-none border-none ' />
+                            <input type="text" placeholder='Search' className='w-96 bg-zinc-900 focus:outline-none border-none ' value={searchTerm}
+                            onChange={e=>dispatch(changeSearchTerm(e.target.value))}/>
                         </div>
-                        <button className='h-10 w-16 flex items-center justify-center bg-[#111] rounded-r-2xl'>
+                        <button className='h-10 w-16 flex items-center justify-center bg-[#111] rounded-r-2xl '>
                             < AiOutlineSearch className=' text-xl' />
                         </button>
                     </div>

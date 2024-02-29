@@ -2,18 +2,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { parseData } from "../../utils/parseData";
 
-export const getHomePageVideos = createAsyncThunk(
-    "youtube/App/searchPageVideos",
+export const getSearchPageVideos = createAsyncThunk(
+    "youtube/App/homePageVideos",
     async (isNext, { getState }) => {
         const {
-            youtubeApp: { nextPageToken: nextPageTokenFromState, videos },
+            youtubeApp: { nextPageToken: nextPageTokenFromState, videos, searchTerm },
         } = getState();
 
         try {
             const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search`, {
                 params: {
-                    maxResults: 20,
-                    q: "drop x out",
+                    q: `${searchTerm}`,
                     key: 'AIzaSyCbI-l6PZJKfY8Q9LkADUOYFZD5I0NfWx8',
                     part: "snippet",
                     type: "video",

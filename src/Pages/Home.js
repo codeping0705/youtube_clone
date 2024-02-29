@@ -8,34 +8,38 @@ import { useAppDispatch, useAppSelector } from '../hooks/useApp';
 import { getHomePageVideos } from '../store/reducers/getHomePageVideos';
 
 export default function Home() {
-
     const dispatch = useAppDispatch();
     const videos = useAppSelector((state) => state.youtubeApp.videos);
 
     useEffect(() => {
         dispatch(getHomePageVideos(false));
-    }, [dispatch])
+    }, [dispatch]);
+
+    const fetchMoreVideos = () => {
+        dispatch(getHomePageVideos(false));
+    };
 
     return (
         <div className='max-h-screen overflow-auto'>
-            <div style={{ height: "7.5vh" }}>
+            <div style={{ height: "7vh" }}>
                 <Navbar />
             </div>
             <div className='flex' style={{ height: "92.5vh" }}>
-            <Sidebar />
+                <Sidebar />
                 {
                     videos.length ? (
                         <InfiniteScroll
                             dataLength={videos.length}
-                            next={() => dispatch(getHomePageVideos)}
+                            next={fetchMoreVideos}
                             hasMore={videos.length < 500}
                             loader={<Spinner />}
                             height={650}
                         >
-
-                            {videos.map((item => {
-                                return <Card key={item.id} data={item} />
-                            }))}
+                            <div className='grid gap-y-14 gap-x-10 grid-cols-3 p-10'>
+                            {videos.map((item, index) => (
+                                <Card key={item.id || index} data={item} />
+                            ))}
+                            </div>
                         </InfiniteScroll>
                     ) : (
                         <Spinner />
@@ -43,5 +47,5 @@ export default function Home() {
                 }
             </div>
         </div>
-    )
+    );
 }

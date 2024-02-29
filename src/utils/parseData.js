@@ -3,8 +3,6 @@ import { convertRawtoString } from './convertRawtoString';
 import { parseVideoDuration } from './parseVideoDuration';
 import { timeSince } from './timeSince';
 
-const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_KEY;
-
 export const parseData = async (items) => {
     try {
         const videoIds = [];
@@ -18,7 +16,7 @@ export const parseData = async (items) => {
         const {
             data: { items: channelsData },
         } = await axios.get(
-            `https://youtube.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&id=${channelIds.join(",")}&key=AIzaSyAws4urUZT6rxVS7aLH_QfY7XB98N42ilo`);
+            `https://youtube.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&id=${channelIds.join(",")}&key=AIzaSyCbI-l6PZJKfY8Q9LkADUOYFZD5I0NfWx8`);
 
         const parsedChannelsData = [];
         channelsData.forEach((channel) => parsedChannelsData.push({
@@ -30,7 +28,7 @@ export const parseData = async (items) => {
         const {
             data: { items: videosData },
         } = await axios.get(
-            `https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds.join(",")}&key=AIzaSyAws4urUZT6rxVS7aLH_QfY7XB98N42ilo`);
+            `https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds.join(",")}&key=AIzaSyCbI-l6PZJKfY8Q9LkADUOYFZD5I0NfWx8`);
 
         const parseData = [];
         items.forEach((item, index) => {
@@ -40,7 +38,8 @@ export const parseData = async (items) => {
                 parseData.push({
                     videoId: item.id.videoId,
                     videoTitle: item.snippet.title,
-                    videoDescription: item.snippet.thumbnails.medium.url,
+                    videoDescription: item.snippet.description,
+                    videoThumbnail: item.snippet.thumbnails.medium.url,
                     videoLink: `https://www.youtube.com/watch?v=${item.id.videoId}`,
                     videoDuration: parseVideoDuration(
                         videosData[index].contentDetails.duration

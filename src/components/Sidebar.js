@@ -47,15 +47,15 @@ const Sidebar = () => {
         }
     ]
     return (
-        <div className='w-2/12 bg-[#212121] p-2 pr-5 overflow-auto pb-8 h-screen'>
-            <ul className='flex flex-col border-b-2 border-gray-700'>
+        <div className='w-2/12 bg-zinc-800 p-2 pr-5 overflow-auto pb-8 h-screen'>
+            <ul className='flex flex-col border-b-2 border-zinc-700'>
                 {mainLinks.map(
                     ({ icon, name }) => {
                         return (
-                            <li key={name} className={`pl-6 py-3 hover:bg-zinc-600 ${name === "Home" ? "bg-zinc-700" : " "} rounded-xl`} >
+                            <li key={name} className={`pl-6 py-3 hover:bg-zinc-700 ${name === "Home" ? "bg-zinc-900" : ""} rounded-xl`} >
                                 <a href="#" className='flex items-center gap-3'>
                                     {icon}
-                                    <span className='text-sm tracking-wider'>{name}</span>
+                                    <span className='text-base font-medium'>{name}</span>
                                 </a>
                             </li>
                         )
@@ -63,14 +63,14 @@ const Sidebar = () => {
                 )}
             </ul>
 
-            <ul className='flex flex-col border-b-1'>
+            <ul className='flex flex-col'>
                 {otherLinks.map(
                     ({ icon, name }) => {
                         return (
-                            <li key={name} className={`pl-6 py-3 hover:bg-zinc-600 ${name === "Home" ? "bg-zinc-700" : " "} rounded-xl`} >
+                            <li key={name} className={`pl-6 py-3 hover:bg-zinc-700 ${name === "Home" ? "bg-zinc-900" : ""} rounded-xl`} >
                                 <a href="#" className='flex items-center gap-3'>
                                     {icon}
-                                    <span className='text-sm tracking-wider'>{name}</span>
+                                    <span className='text-base font-medium'>{name}</span>
                                 </a>
                             </li>
                         )
@@ -78,9 +78,6 @@ const Sidebar = () => {
                 )}
             </ul>
         </div >
-
-
-
     )
 }
 

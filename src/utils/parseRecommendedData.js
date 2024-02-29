@@ -16,7 +16,7 @@ export const parseRecommendedData = async (items) => {
         const {
             data: { items: channelsData },
         } = await axios.get(
-            `https://youtube.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&id=${channelIds.join(",")}&key=AIzaSyCbI-l6PZJKfY8Q9LkADUOYFZD5I0NfWx8`
+            `https://youtube.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&id=${channelIds.join(",")}&key=API_KEY`
         );
 
         const parsedChannelsData = channelsData.map((channel) => ({
@@ -27,7 +27,7 @@ export const parseRecommendedData = async (items) => {
         const {
             data: { items: videosData },
         } = await axios.get(
-            `https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds.join(",")}&key=AIzaSyCbI-l6PZJKfY8Q9LkADUOYFZD5I0NfWx8`
+            `https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds.join(",")}&key=API_KEY`
         );
 
         const parseData = items.map((item, index) => {
